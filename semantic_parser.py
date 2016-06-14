@@ -1,3 +1,4 @@
+from stanforddp import StanfordDP
 from collections import namedtuple
 
 Const = namedtuple('Const', 'id')
@@ -32,3 +33,10 @@ def convert_from_triples(triples):
 
     formulas.extend(transl.atoms.values())
     return formulas
+
+class SemanticParser(object):
+    def __init__(self, dep_parser, dep_models):
+        self.dep_parser = StanfordDP(dep_parser, dep_models)
+
+    def train(self, corpus):
+        pass
