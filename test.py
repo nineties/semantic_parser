@@ -4,8 +4,8 @@ from semantic_parser import SemanticParser
 corpus = open('genia_corpus').read().strip().split('\n')
 
 # Stanford CoreNLP (Download it from http://stanfordnlp.github.io/CoreNLP)
-DEP_PARSER = 'stanford-corenlp-full-2015-04-20/stanford-corenlp-3.5.2.jar'
-DEP_MODELS = 'stanford-corenlp-full-2015-04-20/stanford-corenlp-3.5.2-models.jar'
+DEP_PARSER = 'stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0.jar'
+DEP_MODELS = 'stanford-corenlp-full-2015-12-09/stanford-corenlp-3.6.0-models.jar'
 
 parser = SemanticParser(
         dep_parser=DEP_PARSER,
