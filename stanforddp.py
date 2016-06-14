@@ -15,4 +15,4 @@ class StanfordDP(object):
     def parse_sents(self, texts):
         result = self.parser.raw_parse_sents(texts)
         for graph in result:
-            yield graph.next().triples()
+            yield graph.next()
