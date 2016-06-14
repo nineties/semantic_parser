@@ -10,7 +10,7 @@ class StanfordDP(object):
                 )
 
     def parse(self, text):
-        return self.parser.raw_parse(text).next().triples()
+        return self.parser.raw_parse(text).next()
 
     def parse_sents(self, texts):
         result = self.parser.raw_parse_sents(texts)
