@@ -18,8 +18,14 @@ class DependencyParserServer(object):
             '-timeout', str(self.timeout)
             ],
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stderr=subprocess.PIPE,
+            bufsize=1
             )
+
+        # Wait until the server is ready.
+        for line in iter(self.proc.stderr.readline, ''):
+            if line.find(b'StanfordCoreNLPServer listening') >= 0:
+                break
 
     def stop(self):
         if self.proc:
