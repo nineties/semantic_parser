@@ -29,6 +29,8 @@ class DependencyParserServer(object):
             if line.find(b'StanfordCoreNLPServer listening') >= 0:
                 break
 
+        self.proc.stderr = subprocess.DEVNULL
+
     def stop(self):
         if self.proc:
             self.proc.terminate()
