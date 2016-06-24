@@ -51,11 +51,16 @@ class DependencyParserClient(object):
             'outputFormat': 'json'
             }
 
-        data = requests.post(
+        res = requests.post(
                 'http://{}:{}'.format(self.host, self.port),
                 data=text,
                 params={'properties': repr(params)}
-                ).json()
+                )
+
+        if res.status_code != 200:
+            return
+
+        data = res.json()
 
         # Convert JSON-object to panda's dataframes.
         for s in data['sentences']:
