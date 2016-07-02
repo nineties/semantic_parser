@@ -1,42 +1,30 @@
-from stanforddp import StanfordDP
-from collections import namedtuple
+from .dependency import DependencyParserClient
 
-Const = namedtuple('Const', 'id')
-Var = namedtuple('Var', 'id')
-Atom = namedtuple('Atom', 'pred arg')
-Rel = namedtuple('Rel', 'pred lhs rhs')
+class QuasiLogicalForm(object):
+    def __init__(self, original_text, words, deps):
+        self.original_text = original_text
+        self.words = words
+        self.deps = deps
 
-class SkolemTranslator(object):
-    def __init__(self):
-        self.atoms = {}
-        self.id = 0
-
-    def skolem_var(self, node):
-        if node in self.atoms:
-            return self.atoms[node].arg
-
-        c = Const(self.id)
-        self.atoms[node] = Atom(pred=node, arg=c)
-
-        self.id += 1
-        return c
-
-# Convert a dependency triples to a QLF(quasi-logical form)
-def convert_from_triples(triples):
-    transl = SkolemTranslator()
-    formulas = []
-
-    for x, rel, y in triples:
-        x = transl.skolem_var(x)
-        y = transl.skolem_var(y)
-        formulas.append(Rel(pred=rel, lhs=x, rhs=y))
-
-    formulas.extend(transl.atoms.values())
-    return formulas
+    def __str__(self):
+        print(self.words)
+        print(self.deps)
+        uni = [
+            u'{}(a{})'.format(r['word'], r['index'])
+            for i, r in self.words.iterrows()
+            ]
+        bin = [
+            u'{}(a{},a{})'.format(r['dep'], r['lhs'], r['rhs'])
+            for i, r in self.deps.iterrows()
+            if i != 0
+        ]
+        return '&'.join(uni+bin)
 
 class SemanticParser(object):
-    def __init__(self, dep_parser, dep_models):
-        self.dep_parser = StanfordDP(dep_parser, dep_models)
+    def __init__(self, dpserver):
+        self.dpcli = DependencyParserClient(*dpserver)
 
     def train(self, corpus):
-        pass
+        for text in corpus:
+            for tree in self.dpcli.parse(text):
+                print(QuasiLogicalForm(*tree))
