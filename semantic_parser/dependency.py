@@ -33,6 +33,7 @@ class DependencyParserServer(object):
                 break
 
         self.proc.stderr = DEVNULL
+        return self.port
 
     def stop(self):
         if self.proc:
