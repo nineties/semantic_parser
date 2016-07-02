@@ -1,6 +1,7 @@
 import pandas as pd
 import subprocess
 import requests
+import os
 
 class DependencyParserServer(object):
     def __init__(self, corenlp_path, port=9000, timeout=5000):
@@ -13,13 +14,15 @@ class DependencyParserServer(object):
         if self.proc:
             raise Exception('Double launch of dependency server.')
 
+        DEVNULL = open(os.devnull, 'wb')
+
         self.proc = subprocess.Popen([
             'java', '-mx4g', '-cp', '{}/*'.format(self.corenlp_path),
             'edu.stanford.nlp.pipeline.StanfordCoreNLPServer',
             '-port', str(self.port),
             '-timeout', str(self.timeout)
             ],
-            stdout=subprocess.DEVNULL,
+            stdout=DEVNULL,
             stderr=subprocess.PIPE,
             bufsize=1
             )
@@ -29,7 +32,7 @@ class DependencyParserServer(object):
             if line.find(b'StanfordCoreNLPServer listening') >= 0:
                 break
 
-        self.proc.stderr = subprocess.DEVNULL
+        self.proc.stderr = DEVNULL
 
     def stop(self):
         if self.proc:
