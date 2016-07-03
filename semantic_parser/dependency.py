@@ -49,7 +49,7 @@ class DependencyParserClient(object):
         self.host = host
         self.port = port
 
-    def parse(self, text):
+    def parse(self, text, remove_ROOT=True):
         params = {
             'annotators': 'parse',
             'outputFormat': 'json'
@@ -76,5 +76,8 @@ class DependencyParserClient(object):
             df = pd.DataFrame.from_dict(s['basic-dependencies'])
             deps = df[['dep', 'governor', 'dependent']]
             deps.columns = ['dep', 'lhs', 'rhs']
+
+            if remove_ROOT:
+                deps = deps[deps['dep'] != 'ROOT']
 
             yield original_text, tokens, deps
