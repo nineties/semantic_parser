@@ -7,8 +7,6 @@ class QuasiLogicalForm(object):
         self.deps = deps
 
     def __str__(self):
-        print(self.words)
-        print(self.deps)
         uni = [
             u'{}(a{})'.format(r['word'], r['index'])
             for i, r in self.words.iterrows()
