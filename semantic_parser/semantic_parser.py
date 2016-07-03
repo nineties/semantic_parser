@@ -16,7 +16,7 @@ class QuasiLogicalForm(object):
         bin = [
             u'{}(a{},a{})'.format(r['dep'], r['lhs'], r['rhs'])
             for i, r in self.deps.iterrows()
-            if i != 0
+            if r['dep'] != 'ROOT'
         ]
         return '&'.join(uni+bin)
 
