@@ -75,7 +75,6 @@ class DependencyParserClient(object):
 
             df = pd.DataFrame.from_dict(s['basic-dependencies'])
             deps = df[['dep', 'governor', 'dependent']]
-            deps.columns = ['dep', 'lhs', 'rhs']
 
             if remove_ROOT:
                 deps = deps[deps['dep'] != 'ROOT']

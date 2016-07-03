@@ -12,7 +12,7 @@ class QuasiLogicalForm(object):
             for i, r in self.words.iterrows()
             ]
         bin = [
-            u'{}(a{},a{})'.format(r['dep'], r['lhs'], r['rhs'])
+            u'{}(a{},a{})'.format(r['dep'], r['governor'], r['dependent'])
             for i, r in self.deps.iterrows()
             if r['dep'] != 'ROOT'
         ]
