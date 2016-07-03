@@ -71,7 +71,7 @@ class DependencyParserClient(object):
             df = pd.DataFrame.from_dict(s['tokens'])
 
             original_text = ' '.join(df['originalText'])
-            tokens = df[['index', 'pos', 'word']]
+            tokens = df[['index', 'pos', 'word']].set_index('index')
 
             df = pd.DataFrame.from_dict(s['basic-dependencies'])
             deps = df[['dep', 'governor', 'dependent']]
