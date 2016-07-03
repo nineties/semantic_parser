@@ -22,7 +22,9 @@ class SemanticParser(object):
     def __init__(self, dpserver):
         self.dpcli = DependencyParserClient(*dpserver)
 
-    def train(self, corpus):
-        for text in corpus:
-            for tree in self.dpcli.parse(text):
-                print(QuasiLogicalForm(*tree))
+    def preprocess(self, corpus):
+        return [
+            QuasiLogicalForm(*tree)
+            for text in corpus
+            for tree in self.dpcli.parse(text)
+            ]
